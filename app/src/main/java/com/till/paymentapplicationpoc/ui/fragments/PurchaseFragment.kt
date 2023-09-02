@@ -38,6 +38,9 @@ class PurchaseFragment : Fragment() {
         _binding = null
     }
 
+    /** processing payment on input value for transaction
+    * @param enteredAmount amount value to process payment
+    * */
     private fun processAccountTransaction(enteredAmount: String) {
         val message = if (enteredAmount.isNotBlank()) {
             viewModel.makePayment(enteredAmount)

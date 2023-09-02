@@ -46,6 +46,11 @@ class TransactionFragment : Fragment() {
         return root
     }
 
+
+    /**
+     * Initialize refund process
+     * @param refundAmount processed payment amount.
+     */
     private fun processRefundTransaction(refundAmount: Float) {
         val message = if (refundAmount > 0) {
             if (viewModel.checkRefundEligibility(refundAmount)) {
