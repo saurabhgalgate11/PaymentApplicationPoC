@@ -15,4 +15,5 @@
     <string name="transaction_success_message">Transaction Completed Successfully</string>
     <string name="enter_transaction_amount">Please enter valid amount</string>
     <string name="refund_transaction_message">Refund Initiated Successfully</string>
+    <string name="refund_transaction_error_message">Transaction Failed: Insufficient Funds</string>
 </resources>

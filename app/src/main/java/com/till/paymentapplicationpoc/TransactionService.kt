@@ -1,6 +1,7 @@
 package com.till.paymentapplicationpoc
 
 class TransactionService {
+
     private val transactions = mutableMapOf<Long, Transaction>()
 
     companion object {
@@ -18,6 +19,7 @@ class TransactionService {
     fun refund(refund: Refund) {
         transactions[refund.id] = refund
     }
+
 }
 
 open class Transaction(

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.till.paymentapplicationpoc.databinding.FragmentPurchaseBinding
 
@@ -13,20 +14,23 @@ class PurchaseFragment : Fragment() {
 
     private var _binding: FragmentPurchaseBinding? = null
     private lateinit var paymentEditText: EditText
-    private val transactionService = TransactionService.instance
+    private lateinit var viewModel: TransactionViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
+
         _binding = FragmentPurchaseBinding.inflate(inflater, container, false)
         val binding = _binding!!
         paymentEditText = binding.paymentAmount
+
         binding.paymentButton.setOnClickListener {
-            val enteredAmount = paymentEditText.text.toString()
-            processAccountTransaction(enteredAmount)
+            processAccountTransaction(paymentEditText.text.toString())
         }
+
         return binding.root
     }
 
@@ -36,14 +40,13 @@ class PurchaseFragment : Fragment() {
     }
 
     private fun processAccountTransaction(enteredAmount: String) {
-        val message = if (enteredAmount.isNotEmpty()) {
-            transactionService.pay(
-                Payment(
-                    System.currentTimeMillis(),
-                    enteredAmount.toFloat(),
-                    emptyList()
-                )
+        val message = if (enteredAmount.isNotBlank()) {
+            val payment = Payment(
+                System.currentTimeMillis(),
+                enteredAmount.toFloat(),
+                emptyList()
             )
+            viewModel.makePayment(payment)
             paymentEditText.text.clear()
             R.string.transaction_success_message
         } else {

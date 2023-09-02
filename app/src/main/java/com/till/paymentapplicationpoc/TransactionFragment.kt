@@ -8,15 +8,16 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.till.paymentapplicationpoc.databinding.FragmentTransactionBinding
 
 class TransactionFragment : Fragment() {
-    private var transactionService = TransactionService.instance
+
+    private lateinit var viewModel: TransactionViewModel
     private var _binding: FragmentTransactionBinding? = null
     private lateinit var refundEditText: EditText
-
     private val args: TransactionFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -24,12 +25,12 @@ class TransactionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
         val binding = _binding!!
         val root: View = binding.root
 
-        with(transactionService.getTransaction(args.txId)!!) {
+        with(viewModel.getTransaction(args.txId)!!) {
             root.findViewById<TextView>(R.id.amount).text = amount.toString()
             root.findViewById<TextView>(R.id.tx_id).text = id.toString()
         }
@@ -50,7 +51,7 @@ class TransactionFragment : Fragment() {
                 amount = refundAmount.toFloat(),
                 referenceId = args.txId
             )
-            transactionService.refund(refund)
+            viewModel.makeRefund(refund)
             refundEditText.text.clear()
             R.string.refund_transaction_message
         } else {
