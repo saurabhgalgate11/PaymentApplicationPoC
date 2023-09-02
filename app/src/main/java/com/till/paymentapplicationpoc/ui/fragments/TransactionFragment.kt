@@ -1,4 +1,4 @@
-package com.till.paymentapplicationpoc
+package com.till.paymentapplicationpoc.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
+import com.till.paymentapplicationpoc.R
 import com.till.paymentapplicationpoc.databinding.FragmentTransactionBinding
+import com.till.paymentapplicationpoc.ui.viewmodels.TransactionViewModel
 
 class TransactionFragment : Fragment() {
 
@@ -38,22 +40,21 @@ class TransactionFragment : Fragment() {
         refundEditText = root.findViewById(R.id.refund_amount)
         root.findViewById<Button>(R.id.refund_button).setOnClickListener {
             val refundAmount = refundEditText.text.toString()
-            processRefundTransaction(refundAmount)
+            processRefundTransaction(refundAmount.toFloat())
         }
 
         return root
     }
 
-    private fun processRefundTransaction(refundAmount: String) {
-        val message = if (refundAmount.isNotEmpty()) {
-            val refund = Refund(
-                id = System.currentTimeMillis(),
-                amount = refundAmount.toFloat(),
-                referenceId = args.txId
-            )
-            viewModel.makeRefund(refund)
-            refundEditText.text.clear()
-            R.string.refund_transaction_message
+    private fun processRefundTransaction(refundAmount: Float) {
+        val message = if (refundAmount > 0) {
+            if (viewModel.checkRefundEligibility(refundAmount)) {
+                viewModel.makeRefund(refundAmount, args.txId)
+                refundEditText.text.clear()
+                R.string.refund_transaction_message
+            } else {
+                R.string.refund_transaction_error_message
+            }
         } else {
             R.string.enter_transaction_amount
         }

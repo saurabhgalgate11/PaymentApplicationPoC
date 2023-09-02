@@ -1,4 +1,4 @@
-package com.till.paymentapplicationpoc
+package com.till.paymentapplicationpoc.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.till.paymentapplicationpoc.R
 import com.till.paymentapplicationpoc.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

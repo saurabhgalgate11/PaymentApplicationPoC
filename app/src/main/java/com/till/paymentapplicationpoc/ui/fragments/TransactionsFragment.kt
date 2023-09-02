@@ -1,17 +1,19 @@
-package com.till.paymentapplicationpoc
+package com.till.paymentapplicationpoc.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.till.paymentapplicationpoc.R
+import com.till.paymentapplicationpoc.data.model.Payment
+import com.till.paymentapplicationpoc.data.model.Transaction
+import com.till.paymentapplicationpoc.data.repositories.TransactionService
 import com.till.paymentapplicationpoc.databinding.FragmentTransactionsBinding
+import com.till.paymentapplicationpoc.ui.adapters.TransactionsAdapter
 
 class TransactionsFragment : Fragment(), TransactionsAdapter.TransactionClickListener {
 
@@ -34,7 +36,11 @@ class TransactionsFragment : Fragment(), TransactionsAdapter.TransactionClickLis
         recyclerView = root.findViewById(R.id.transaction_list)
         adapter = TransactionsAdapter(transactionsService.getTransactions(), this)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(
+            activity,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
 
         return root
     }
@@ -50,39 +56,6 @@ class TransactionsFragment : Fragment(), TransactionsAdapter.TransactionClickLis
             binding.root.findNavController().navigate(direction)
         }
     }
-}
-
-class TransactionsAdapter(private val dataSet: List<Transaction>, private val onClickListener: TransactionClickListener) :
-    RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
-
-    interface TransactionClickListener {
-        fun onTransactionClicked(transaction: Transaction)
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val paymentAmount: TextView
-        val paymentType: TextView
-
-        init {
-            paymentAmount = view.findViewById(R.id.payment_amount)
-            paymentType = view.findViewById(R.id.payment_type)
-        }
-    }
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.transaction_item, viewGroup, false)
-
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.setOnClickListener { onClickListener.onTransactionClicked(dataSet[position]) }
-        viewHolder.paymentAmount.text = dataSet[position].amount.toString()
-        viewHolder.paymentType.text = if (dataSet[position] is Payment) "Payment" else "Refund"
-    }
-
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = dataSet.size
 
 }
+

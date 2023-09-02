@@ -1,4 +1,4 @@
-package com.till.paymentapplicationpoc
+package com.till.paymentapplicationpoc.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,8 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.till.paymentapplicationpoc.R
+import com.till.paymentapplicationpoc.ui.viewmodels.TransactionViewModel
 import com.till.paymentapplicationpoc.databinding.FragmentPurchaseBinding
 
 class PurchaseFragment : Fragment() {
@@ -22,15 +24,12 @@ class PurchaseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(requireActivity())[TransactionViewModel::class.java]
-
         _binding = FragmentPurchaseBinding.inflate(inflater, container, false)
         val binding = _binding!!
         paymentEditText = binding.paymentAmount
-
         binding.paymentButton.setOnClickListener {
             processAccountTransaction(paymentEditText.text.toString())
         }
-
         return binding.root
     }
 
@@ -41,12 +40,7 @@ class PurchaseFragment : Fragment() {
 
     private fun processAccountTransaction(enteredAmount: String) {
         val message = if (enteredAmount.isNotBlank()) {
-            val payment = Payment(
-                System.currentTimeMillis(),
-                enteredAmount.toFloat(),
-                emptyList()
-            )
-            viewModel.makePayment(payment)
+            viewModel.makePayment(enteredAmount)
             paymentEditText.text.clear()
             R.string.transaction_success_message
         } else {

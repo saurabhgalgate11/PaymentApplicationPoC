@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/nav_purchase"
-        android:name="com.till.paymentapplicationpoc.PurchaseFragment"
+        android:name="com.till.paymentapplicationpoc.ui.fragments.PurchaseFragment"
         android:label="@string/menu_purchase"
         tools:layout="@layout/fragment_purchase" />
 
     <fragment
         android:id="@+id/nav_transactions"
-        android:name="com.till.paymentapplicationpoc.TransactionsFragment"
+        android:name="com.till.paymentapplicationpoc.ui.fragments.TransactionsFragment"
         android:label="@string/menu_transactions"
         tools:layout="@layout/fragment_transactions">
         <action
@@ -29,7 +29,7 @@
     </fragment>
 
     <fragment android:id="@+id/nav_transaction"
-        android:name="com.till.paymentapplicationpoc.TransactionFragment"
+        android:name="com.till.paymentapplicationpoc.ui.fragments.TransactionFragment"
         android:label="Tansaction"
         tools:layout="@layout/fragment_transaction"
         >
