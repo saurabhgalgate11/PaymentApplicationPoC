@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.till.paymentapplicationpoc.databinding.FragmentTransactionBinding
 
 class TransactionFragment : Fragment() {
@@ -35,16 +36,31 @@ class TransactionFragment : Fragment() {
 
         refundEditText = root.findViewById(R.id.refund_amount)
         root.findViewById<Button>(R.id.refund_button).setOnClickListener {
-            val refundAmount = refundEditText.text.toString().toFloat()
-            val refund = Refund(
-                id = System.currentTimeMillis(),
-                amount = refundAmount,
-                referenceId = args.txId
-            )
-
-            transactionService.refund(refund)
+            val refundAmount = refundEditText.text.toString()
+            processRefundTransaction(refundAmount)
         }
 
         return root
     }
+
+    private fun processRefundTransaction(refundAmount: String) {
+        val message = if (refundAmount.isNotEmpty()) {
+            val refund = Refund(
+                id = System.currentTimeMillis(),
+                amount = refundAmount.toFloat(),
+                referenceId = args.txId
+            )
+            transactionService.refund(refund)
+            refundEditText.text.clear()
+            R.string.refund_transaction_message
+        } else {
+            R.string.enter_transaction_amount
+        }
+        Snackbar.make(
+            refundEditText.rootView,
+            resources.getString(message),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
+
 }

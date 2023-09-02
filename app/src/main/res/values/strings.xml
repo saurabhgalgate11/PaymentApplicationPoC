@@ -8,4 +8,11 @@
 
     <string name="menu_purchase">Purchase</string>
     <string name="menu_transactions">Transactions</string>
+
+    <string name="action_pay">Pay</string>
+    <string name="action_refund">Refund</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="transaction_success_message">Transaction Completed Successfully</string>
+    <string name="enter_transaction_amount">Please enter valid amount</string>
+    <string name="refund_transaction_message">Refund Initiated Successfully</string>
 </resources>

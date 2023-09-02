@@ -12,22 +12,23 @@
         android:id="@+id/payment_amount"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:hint="@string/enter_amount"
+        android:inputType="numberDecimal"
+        android:label="Payment Amount ($)"
         app:layout_constraintBottom_toTopOf="@id/payment_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:label="Payment Amount ($)"
-        app:layout_constraintVertical_chainStyle="packed"
-        />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/payment_button"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        app:layout_constraintTop_toBottomOf="@id/payment_amount"
+        android:text="@string/action_pay"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Pay"
-        />
+        app:layout_constraintTop_toBottomOf="@id/payment_amount" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
